@@ -11,6 +11,8 @@ body {
   display: grid;
   place-items: center;
   height: 100vh;
+  background-image: url('./img/game_background_2.png');
+  background-size: cover;
 }
 h1 {
   font-size: 2rem;
