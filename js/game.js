@@ -1,4 +1,12 @@
 let canvas;
+let character = new Image();
+character.src = "images/character.png";
+let enemies = [];
+let bullets = [];
+let score = 0;
+let gameOver = false;
+let gameStarted = false;
+let gamePaused = false;
 
 function init() {
     canvas = document.getElementById("gameCanvas");
