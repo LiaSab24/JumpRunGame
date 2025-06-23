@@ -33,79 +33,70 @@ function goToImpressum(url) {
   window.location.href = url;
 }
 
+/**
+ * Definiert, welche Funktion bei einem Klick auf einen bestimmten Button ausgeführt wird.
+ * Dies macht den Code erweiterbar und leicht lesbar.
+ */
+const buttonEventMap = {
+    'startButton': initGame,
+    'restartButton': restartGame,
+    'restartButtonWin': restartGame,
+    'backButton': () => window.location.href = 'index.html',
+    'impButton': () => window.location.href = 'impressum.html',
+    'pauseButton': () => world?.togglePause(), // Optional Chaining: Ruft nur auf, wenn 'world' existiert
+    'buyLifeButton': () => world?.buyLife(),
+    'helpButton': toggleHelpText
+};
+
 /** 
-* Event Listener, um das gesamte HTML zu laden 
+* Ausgelagerte Aktionen (Helper-Funktionen)
 */
-window.addEventListener('DOMContentLoaded', (event) => {
-    const infoBox = document.querySelector('game-info');
-    if (infoBox) {
-    setTimeout(() => {
-      infoBox.classList.add('visible'); 
-    }, 2000);
-    }
-    /**
-    * Event Listener für die Schaltflächen im Spiel.
-    * Diese Listener ermöglichen die Interaktion mit dem Spiel, wie Starten, Anzeigen von Hilfe    
-    */
-    const startButton = document.getElementById('startButton');
-    const helpButton = document.getElementById('helpButton');
-    const impButton = document.getElementById('impButton');
-    const backButton = document.getElementById('backButton');
+
+/**
+ * Zeigt den Hilfe-Text an oder versteckt ihn.
+ */
+function toggleHelpText() {
     const helpText = document.getElementById('helpText');
     const imprintText = document.getElementById('imprintText');
-    const restartButton = document.getElementById('restartButton');
-    const pauseButton = document.getElementById('pauseButton');
-    const weiterButton = document.getElementById('weiterButton');
-    const restartButtonWin = document.getElementById('restartButtonWin');
-    const buyLifeButton = document.getElementById('buyLifeButton'); 
-
-    if (startButton) {
-        startButton.addEventListener('click', initGame);
-    } 
-
-    if (helpButton && helpText) {
-        helpButton.addEventListener('click', () => {
-            helpText.style.display = helpText.style.display === 'none' ? 'block' : 'none';
-            imprintText.style.display = 'none'; 
-        });
+    if (helpText && imprintText) {
+        helpText.style.display = helpText.style.display === 'none' ? 'block' : 'none';
+        imprintText.style.display = 'none';
     }
+}
 
-    if (impButton) {
-        impButton.addEventListener('click', () => {
-          window.location.href = 'impressum.html';       
-          });
+/**
+ * Richtet alle Event-Listener basierend auf der buttonEventMap ein.
+ */
+function setupEventListeners() {
+    for (const id in buttonEventMap) {
+        const element = document.getElementById(id);
+        if (element) {
+            element.addEventListener('click', buttonEventMap[id]);
+        }
     }
+}
 
-    if (backButton) {
-      backButton.addEventListener('click', () => {
-        window.location.href = 'index.html';
-      });
+/**
+* Richtet die anfänglichen UI-Animationen und Zustände ein.
+*/
+function setupInitialUI() {
+    const infoBox = document.querySelector('.game-info');
+    if (infoBox) {
+        setTimeout(() => infoBox.classList.add('visible'), 2000);
     }
-
-    if (pauseButton) {
-        pauseButton.addEventListener('click', () => {
-          if (world && typeof world.togglePause === 'function') {
-              world.togglePause();      
-          } 
-        });
-    }
-
-    if (restartButton) {
-        restartButton.addEventListener('click', restartGame);
-    }
-
-    if (restartButtonWin) {
-        restartButtonWin.addEventListener('click', restartGame);
-    }
-
+    const buyLifeButton = document.getElementById('buyLifeButton');
     if (buyLifeButton) {
-        buyLifeButton.addEventListener('click', () => {
-            if (world && typeof world.buyLife === 'function') {
-                 world.buyLife(); 
-            }  
-        });
         buyLifeButton.style.display = 'none';
     }
+}
+
+/**
+* Haupt-Initialisierung
+*/ 
+
+window.addEventListener('DOMContentLoaded', () => {
+    setupInitialUI();
+    setupEventListeners();
 });
 
 /** * Zeigt den Game Over-Bildschirm an, wenn das Spiel verloren ist.
