@@ -36,7 +36,16 @@ Da es sich um eine reine Webanwendung handelt, ist keine komplexe Installation n
 ## Projektstruktur
 Das Projekt ist modular aufgebaut, um eine klare Trennung der Verantwortlichkeiten zu gewährleisten:
 
--   **/classes:** Enthält alle JavaScript-Klassen, die die Spielelemente definieren (z.B. `character.class.js`, `enemy.class.js`, `world.class.js`).
+-   **/classes:** Enthält alle JavaScript-Klassen, die die Spielelemente definieren.
+    -   `movable-object.class.js`: Die Basisklasse für alle beweglichen Objekte mit gemeinsamer Logik (Position, Bilder laden, Kollision).
+    -   `character.class.js`: Steuert den Spieler, seine Animationen, Aktionen (Springen, Werfen) und Lebenspunkte.
+    -   `enemies.class.js`: Definiert das Verhalten und die Animation der Gegner.
+    -   `throwable-object.class.js`: Logik für geworfene Objekte (Steine), inklusive Flugbahn und Rotation.
+    -   `coins.class.js`, `stones.class.js`: Klassen für die sammelbaren Objekte im Spiel.
+    -   `treasureChest.class.js`: Definiert das Endziel des Spiels, die Schatztruhe.
+    -   `clouds.class.js`: Steuert die sich bewegenden Wolken im Hintergrund.
+    -   `background.class.js`: Definiert die einzelnen Ebenen des Parallax-Hintergrunds.
+    -   `world.class.js`: Die "Haupt-Engine" des Spiels. Sie verwaltet alle Objekte, die Game-Loop, Kollisionen und die Kamera.
 -   **/js:** Beinhaltet die globale Spiellogik und die Initialisierung (`game.js`).
 -   **/images:** Speichert alle grafischen Assets wie Sprites, Hintergründe und Icons.
 -   **/audio:** Enthält alle Soundeffekte und Musikdateien.
