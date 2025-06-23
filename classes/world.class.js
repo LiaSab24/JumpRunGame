@@ -150,86 +150,44 @@ class World {
         });
     }
 
-    /**
-     * Initialisiert die Event-Listener für die Touch-Steuerung auf den HTML-Buttons.
-     * Die Touch-Aktionen setzen Flags im `this.keyboard`-Objekt,
-     * ähnlich wie die Tastatureingaben.
-     * @private
-     * @memberof World
+   /**
+     * Initialisiert die Event-Listener für die In-Game-Steuerungsbuttons.
+     * Nutzt eine Konfigurations-Map, um den Code sauber und erweiterbar zu halten.
      */
     initButtonControls() {
-        const touchMappings = [
-            { buttonId: 'leftButton', actionKey: 'TOUCH_LEFT' },
-            { buttonId: 'rightButton', actionKey: 'TOUCH_RIGHT' },
-            { buttonId: 'upButton', actionKey: 'TOUCH_JUMP' },
-            { buttonId: 'wurfButton', actionKey: 'TOUCH_THROW' },
-        ];
-
-        touchMappings.forEach(mapping => {
-            const button = document.getElementById(mapping.buttonId);
-            if (button) {
-                // für Touchscreen-Buttons
-                button.addEventListener('touchstart', (e) => {
-                    e.preventDefault(); // Verhindert Standard-Browserverhalten (z.B. Scrollen)
-                    this.keyboard[mapping.actionKey] = true;
-                }, { passive: false }); // Notwendig für preventDefault in Touch-Listenern
-
-                button.addEventListener('touchend', (e) => {
-                    e.preventDefault();
-                    this.keyboard[mapping.actionKey] = false;
-                }, { passive: false });
-                button.addEventListener('mousedown', (e) => {
-                    e.preventDefault();
-                    this.keyboard[mapping.actionKey] = true;
-                });
-    
-                button.addEventListener('mouseup', (e) => {
-                    e.preventDefault();
-                    this.keyboard[mapping.actionKey] = false;
-                });
-                 // Wenn die Maus den Button verlässt, gilt er auch als "losgelassen"
-                button.addEventListener('mouseleave', (e) => {
-                    this.keyboard[mapping.actionKey] = false;
-                });
-            }
-            
-        });
-
-        // --- buttons für einmalige Aktionen (Play, Pause, Stop) ---
-        const pauseButton = document.getElementById('pauseButton');
-        if (pauseButton) {
-            //pauseButton.addEventListener('touchstart', (e) => {
-            //    e.preventDefault();
-            //    if (!this.isPaused) this.togglePause();
-            //}, { passive: false });
-            // --- 'click' funktioniert für Maus und für die meisten Touch-Geräte! ---
-            pauseButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.togglePause();
-            });    
+    // Konfiguration: Map mit Button-IDs zu ihren Steuerungs-Aktionen.
+        const controlButtonMap = {
+            'leftButton': 'TOUCH_LEFT',
+            'rightButton': 'TOUCH_RIGHT',
+            'upButton': 'TOUCH_JUMP',
+            'wurfButton': 'TOUCH_THROW'
+        };
+    // Registrierung: Geht durch die Map und bindet die Events für jeden Button.
+        for (const buttonId in controlButtonMap) {
+            const actionKey = controlButtonMap[buttonId];
+            this.bindPressAndHoldEvents(buttonId, actionKey);
         }
-
-        const playButton = document.getElementById('playButton'); 
-        if (playButton) {
-            playButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (this.isPaused) {
-                    this.togglePause();
-                }
-            });
-        }
-
-        const stopButton = document.getElementById('stopButton');
-        if (stopButton) {
-            stopButton.addEventListener('click', (e) => {
-                 e.preventDefault();
-                 // Hier könntest du eine Funktion zum Neustarten des Spiels aufrufen
-                 // z.B. window.location.reload(); 
-            });
-        }
-
-        // const audioOnOffButton = document.getElementById('audioOnOffButton');
-        // ...
+    }
+    /**
+     * BINDET HELFER-METHODE: Bindet "Gedrückt halten" und "Loslassen"-Events
+     * für Maus und Touch an einen einzelnen UI-Button.
+     * @param {string} buttonId - Die ID des HTML-Button-Elements.
+     * @param {string} actionKey - Der Schlüssel, der im `this.keyboard`-Objekt gesetzt wird.
+     */
+    bindPressAndHoldEvents(buttonId, actionKey) {
+        const button = document.getElementById(buttonId);
+        if (!button) return;                    // Bricht ab, wenn der Button nicht existiert
+        const setActionState = (isPressed) => (event) => {
+          event.preventDefault();
+          this.keyboard[actionKey] = isPressed;
+        };
+        // Events für "Button gedrückt"
+        button.addEventListener('mousedown', setActionState(true));
+        button.addEventListener('touchstart', setActionState(true), { passive: false });
+        // Events für "Button losgelassen"
+        button.addEventListener('mouseup', setActionState(false));
+        button.addEventListener('mouseleave', setActionState(false));
+        button.addEventListener('touchend', setActionState(false), { passive: false });
     }
 
     // --- Methode zum Umschalten des Pause-Zustands ---
