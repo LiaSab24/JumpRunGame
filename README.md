@@ -24,7 +24,7 @@ Da es sich um eine reine Webanwendung handelt, ist keine komplexe Installation n
 
 1.  **Klone das Repository:**
     ```bash
-    git clone https://github.com/LiaSab24/JumpRunGame
+    git clone https://github.com/LiaSab24/JumpRunGame.git
     ```
 2.  **Öffne die `index.html`:**
     Navigiere in den Projektordner und öffne die `index.html`-Datei in einem modernen Webbrowser (z.B. Chrome, Firefox, Safari).
