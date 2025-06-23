@@ -43,16 +43,13 @@ const buttonEventMap = {
     'restartButtonWin': restartGame,
     'backButton': () => window.location.href = 'index.html',
     'impButton': () => window.location.href = 'impressum.html',
-    'pauseButton': () => world?.togglePause(), // Optional Chaining: Ruft nur auf, wenn 'world' existiert
+    'pauseButton': () => world?.togglePause(),                 // Ruft nur auf, wenn 'world' existiert
     'buyLifeButton': () => world?.buyLife(),
     'helpButton': toggleHelpText
 };
 
-/** 
-* Ausgelagerte Aktionen (Helper-Funktionen)
-*/
-
 /**
+ * Ausgelagerte Aktionen (Helper-Funktionen)
  * Zeigt den Hilfe-Text an oder versteckt ihn.
  */
 function toggleHelpText() {
@@ -77,8 +74,8 @@ function setupEventListeners() {
 }
 
 /**
-* Richtet die anfänglichen UI-Animationen und Zustände ein.
-*/
+ * Richtet die anfänglichen UI-Animationen und Zustände ein.
+ */
 function setupInitialUI() {
     const infoBox = document.querySelector('.game-info');
     if (infoBox) {
@@ -91,8 +88,8 @@ function setupInitialUI() {
 }
 
 /**
-* Haupt-Initialisierung
-*/ 
+ * Haupt-Initialisierung
+ */ 
 
 window.addEventListener('DOMContentLoaded', () => {
     setupInitialUI();
