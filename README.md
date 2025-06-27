@@ -59,5 +59,5 @@ Das Projekt ist modular aufgebaut, um eine klare Trennung der Verantwortlichkeit
 
 ## Dokumentation
 Weitere Details zur Entwicklung und Architektur finden sich hier:
-- [**Architecture Decision Records (ADRs)**](./docs/adr/README.md) - Wichtige technische Entscheidungen.
-- [**Changelog**](./CHANGELOG.md) - Eine Übersicht aller Änderungen pro Version.
+- [**Architecture Decision Records (ADRs)**](./docs/adr/) - Wichtige technische Entscheidungen.
+- [**Changelog**](./docs/CHANGELOG.md) - Eine Übersicht aller Änderungen pro Version.
