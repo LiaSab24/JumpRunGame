@@ -1,6 +1,6 @@
 # ADR 001: Wahl der Rendering Engine
 
--   **Datum:** 2023-10-27
+-   **Datum:** 2025-04-27
 -   **Status:** Akzeptiert
 
 ## Kontext
