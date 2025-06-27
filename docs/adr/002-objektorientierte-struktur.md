@@ -1,5 +1,5 @@
 # ADR 002: Objektorientierte Struktur mit Klassen
--   **Datum:** 2023-10-27
+-   **Datum:** 2025-04-27
 -   **Status:** Akzeptiert
 
 ## Kontext
